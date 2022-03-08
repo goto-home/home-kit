@@ -8,7 +8,7 @@ import (
 
 // UtilsDbConn 目前持久化框架只考虑gorm实现
 type UtilsDbConn struct {
-	cfg *DatabaseCfg
+	//cfg *DatabaseCfg
 	conn *gorm.DB
 }
 
