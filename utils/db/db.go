@@ -41,7 +41,7 @@ func (u *UtilsDbConn) AutoMigrate(dst ...interface{}) {
 	if err := u.createDb(); err != nil {
 		panic(fmt.Sprintf("create database failed,err:%v", err))
 	}
-	if err := u.conn.AutoMigrate(dst); err != nil {
+	if err := u.conn.AutoMigrate(dst...); err != nil {
 		panic(fmt.Sprintf("auto migrate tables failed,err:%v", err))
 	}
 	info := fmt.Sprintf("auto migrate tables database: %s succeed!", u.cfg.DatabaseName)
@@ -49,7 +49,7 @@ func (u *UtilsDbConn) AutoMigrate(dst ...interface{}) {
 }
 
 func (u *UtilsDbConn) createDb() error {
-	db := "CREATE DATABASE IF NOT EXISTS " + u.cfg.DatabaseName + "DEFAULT CHARSET utf8mb4;"
+	db := "CREATE DATABASE IF NOT EXISTS " + u.cfg.DatabaseName + " CHARSET utf8mb4;"
 	if err := u.conn.Exec(db).Error; err != nil {
 		return err
 	}
