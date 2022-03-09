@@ -13,3 +13,19 @@ func TestNewGormConn(t *testing.T) {
 	_, f := NewGormConn(cfg)
 	defer f()
 }
+
+func TestDropDb(t *testing.T) {
+	cfg := &DatabaseCfg{
+		Username:     "root",
+		Password:     "1234",
+		Url:          "127.0.0.1:3306",
+		Port:         "3306",
+		DatabaseName: "demo",
+	}
+	conn, f := NewGormConn(cfg)
+	defer f()
+
+	if err := conn.DropDb(); err != nil {
+		t.Fail()
+	}
+}
