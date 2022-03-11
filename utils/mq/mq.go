@@ -14,4 +14,5 @@ type Producer interface {
 
 type Consumer interface {
 	Consume(ctx context.Context) ([]byte, error)
+	CloseFunc()
 }

@@ -18,6 +18,7 @@ func TestPulsar(t *testing.T) {
 		t.Fail()
 		return
 	}
+	defer cli.Close()
 	// producer
 	pro, err := producer.NewPulsarProducer("demo", cli)
 	if err != nil || pro == nil {
@@ -39,6 +40,7 @@ func TestPulsar(t *testing.T) {
 		t.Fail()
 		return
 	}
+	defer con.CloseFunc()
 	go func() {
 		bytes, err := con.Consume(ctx)
 		if err != nil {

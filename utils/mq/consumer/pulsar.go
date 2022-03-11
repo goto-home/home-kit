@@ -17,6 +17,10 @@ func (p *PulsarConsumer) Consume(ctx context.Context) ([]byte, error) {
 	return msg.Payload(), err
 }
 
+func (p *PulsarConsumer) CloseFunc() {
+	p.con.Close()
+}
+
 func NewPulsarConsumer(topic, subName string, cli pulsar.Client) (*PulsarConsumer, error) {
 	con, err := cli.Subscribe(pulsar.ConsumerOptions{
 		Topic:            topic,
