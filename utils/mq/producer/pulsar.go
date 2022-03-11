@@ -7,28 +7,20 @@ import (
 )
 
 type PulsarProducer struct {
-	cli pulsar.Client
 	pro pulsar.Producer
 }
 
-func NewPulsarProducer(url, topic string) *PulsarProducer {
-	client, err := pulsar.NewClient(pulsar.ClientOptions{
-		URL: url,
-	})
-	if err != nil {
-		panic(err)
-	}
-
-	pul := &PulsarProducer{cli: client}
+func NewPulsarProducer(topic string, cli pulsar.Client) (*PulsarProducer, error) {
+	pul := &PulsarProducer{}
 	// producer
-	producer, err := client.CreateProducer(pulsar.ProducerOptions{
+	producer, err := cli.CreateProducer(pulsar.ProducerOptions{
 		Topic: topic,
 	})
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 	pul.pro = producer
-	return pul
+	return pul, nil
 }
 
 func (p *PulsarProducer) SendMsg(ctx context.Context, msg []byte) error {
@@ -56,5 +48,4 @@ func (p *PulsarProducer) DelayAfterSendMsg(ctx context.Context, msg []byte, dur 
 
 func (p *PulsarProducer) CloseFunc() {
 	p.pro.Close()
-	p.cli.Close()
 }
